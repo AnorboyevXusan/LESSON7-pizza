@@ -6,33 +6,18 @@ import "./Pages.css";
 
 const CartPage = () => {
   const { cart } = useContext(ProductsContext);
-
-  const productCounts = {};
-
-  cart.forEach((product) => {
-    if (!productCounts[product.id]) {
-      productCounts[product.id] = {
-        ...product,
-        quantity: 0,
-      };
-    }
-    productCounts[product.id].quantity++;
-  });
-
-  const cartItems = Object.values(productCounts);
-
+  let totalPrice = cart.map(pr => pr.quantity * pr.price);
   let result = 0;
-  cartItems.forEach((product) => {
-    result += product.quantity * product.price;
-  });
-
+  for (let price of totalPrice) {
+    result += price;
+  }
   return (
     <Fragment>
       <section>
         <div className="container-md">
           <h1 className="card-title">Ваш заказ</h1>
           <div className="cart-row">
-            {cartItems.map((product) => (
+            {cart.map((product) => (
               <CartCard key={product.id} {...product} />
             ))}
           </div>
